@@ -3,124 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asor Notes — A Bible journal that reads with you</title>
+<title>Asor Notes — A Bible journal built for deep study</title>
 <meta name="description" content="Asor Notes is an offline Bible journal with a built-in scripture and Strong's concordance lookup, and rich multimedia notes — 100% private, no account required.">
+<link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --parchment:#F1E6CC;
-    --parchment-deep:#E8D9B4;
-    --ink:#241A12;
-    --ink-soft:#4A3B2C;
-    --rubric:#AE241C;
-    --rubric-deep:#7E1712;
-    --navy:#131B2E;
-    --navy-soft:#1E2A45;
-    --gold:#93712C;
-    --line:#CBB98B;
-    --paper-shadow: 0 18px 40px -20px rgba(36,26,18,0.45);
-    --max: 1180px;
+    --bg:#0A0A0A;
+    --surface:#141414;
+    --surface-2:#1B1B1B;
+    --text:#F2F1ED;
+    --text-dim:#9C9C9C;
+    --text-dim-2:#707070;
+    --red:#E9382B;
+    --red-deep:#B3241D;
+    --chip-bg:#3D0B0C;
+    --chip-text:#F1B4AE;
+    --line: rgba(255,255,255,0.10);
+    --line-soft: rgba(255,255,255,0.06);
+    --max:1180px;
   }
-
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--parchment);
-    color:var(--ink);
-    font-family:'Source Serif 4', serif;
-    font-size:18px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
-  ::selection{ background: var(--rubric); color: var(--parchment); }
-
+  img{ max-width:100%; display:block; }
+  ::selection{ background: var(--red); color:#fff; }
   a{ color:inherit; }
-
   h1,h2,h3{
-    font-family:'Fraunces', serif;
-    font-weight:500;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
     letter-spacing:-0.01em;
     margin:0;
-    color:var(--ink);
+    color:var(--text);
   }
-
-  .wrap{ max-width:var(--max); margin:0 auto; padding:0 32px; }
-
-  /* ---------- Motion: reduced-motion respected ---------- */
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
+  :focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
 
-  :focus-visible{
-    outline: 2px solid var(--rubric);
-    outline-offset: 3px;
-  }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 20px; }
+  @media (min-width:640px){ .wrap{ padding:0 32px; } }
 
   /* ---------- Nav ---------- */
   header.site{
     position:sticky; top:0; z-index:40;
-    background:rgba(241,230,204,0.92);
-    backdrop-filter: blur(6px);
+    background:rgba(10,10,10,0.86);
+    backdrop-filter: blur(8px);
     border-bottom:1px solid var(--line);
   }
   .nav{
-    max-width:var(--max); margin:0 auto; padding:18px 32px;
-    display:flex; align-items:center; justify-content:space-between;
-    font-family:'Inter', sans-serif;
+    max-width:var(--max); margin:0 auto; padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
   }
+  @media (min-width:640px){ .nav{ padding:16px 32px; } }
   .brand{
-    display:flex; align-items:center; gap:10px;
-    font-family:'Fraunces', serif; font-weight:600; font-size:20px; color:var(--ink);
-    text-decoration:none;
+    display:flex; align-items:center; gap:9px;
+    font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13.5px;
+    letter-spacing:0.02em;
+    color:var(--text); text-decoration:none; text-transform:uppercase;
   }
-  .brand .mark{
-    width:28px; height:28px; border-radius:7px;
-    display:block;
-    flex-shrink:0;
-  }
-  nav.links{ display:flex; gap:30px; font-size:15px; }
-  nav.links a{ text-decoration:none; color:var(--ink-soft); transition:color .15s ease; }
-  nav.links a:hover{ color:var(--rubric); }
+  .brand .mark{ width:24px; height:24px; border-radius:6px; flex-shrink:0; }
+  nav.links{ display:none; gap:28px; font-family:'Inter',sans-serif; font-size:14.5px; }
+  nav.links a{ text-decoration:none; color:var(--text-dim); transition:color .15s ease; }
+  nav.links a:hover{ color:var(--text); }
+  @media (min-width:900px){ nav.links{ display:flex; } }
   .nav-cta{
-    font-size:14px; padding:9px 18px; border-radius:3px;
-    background:var(--ink); color:var(--parchment) !important;
-    text-decoration:none; font-family:'Inter',sans-serif; font-weight:500;
+    font-size:13.5px; padding:9px 16px; border-radius:6px;
+    background:var(--red); color:#fff !important;
+    text-decoration:none; font-family:'Inter',sans-serif; font-weight:600;
+    white-space:nowrap; flex-shrink:0;
     transition: background .15s ease;
   }
-  .nav-cta:hover{ background:var(--rubric); }
-  @media (max-width: 820px){ nav.links{ display:none; } }
+  .nav-cta:hover{ background:var(--red-deep); }
+
+  /* ---------- Timecode section label ---------- */
+  .timecode{
+    display:flex; align-items:center; gap:14px;
+    max-width:var(--max); margin:0 auto; padding:0 20px;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px;
+    color:var(--text-dim-2); letter-spacing:0.04em; text-transform:uppercase;
+  }
+  @media (min-width:640px){ .timecode{ padding:0 32px; font-size:13px; } }
+  .timecode .tc-num{ color:var(--red); flex-shrink:0; }
+  .timecode .tc-line{ flex:1; height:1px; background:var(--line); }
+  .timecode .tc-label{ flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
   /* ---------- Hero ---------- */
-  .hero{
-    padding:88px 0 60px;
-    position:relative;
-    overflow:hidden;
+  .hero{ padding:52px 0 44px; }
+  @media (min-width:900px){ .hero{ padding:88px 0 60px; } }
+  .hero .wrap{ display:grid; grid-template-columns:1fr; gap:36px; }
+  @media (min-width:900px){ .hero .wrap{ grid-template-columns:1.05fr 0.85fr; gap:56px; align-items:center; } }
+
+  .status-line{
+    display:flex; align-items:center; gap:9px;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--text-dim);
+    letter-spacing:0.03em; text-transform:uppercase; margin-bottom:18px;
   }
-  .hero .wrap{
-    display:grid; grid-template-columns: 1.05fr 0.8fr; gap:64px; align-items:center;
-  }
-  .kicker{
-    font-family:'Fraunces', serif; font-style:italic; font-weight:500;
-    color:var(--rubric); font-size:17px; margin-bottom:18px; display:block;
-  }
+  .status-line .dot{ width:7px; height:7px; border-radius:50%; background:var(--red); flex-shrink:0; box-shadow:0 0 8px var(--red); }
+
   .hero h1{
-    font-size:clamp(38px, 5vw, 58px);
-    line-height:1.06;
+    font-size:clamp(32px, 7vw, 58px);
+    line-height:1.08;
   }
+  .hero h1 .accent{ color:var(--red); }
   .hero p.lede{
-    font-size:19px; color:var(--ink-soft); max-width:46ch; margin-top:22px;
+    font-size:clamp(16px, 2vw, 19px); color:var(--text-dim); max-width:46ch; margin-top:18px;
   }
+
   .hero-detect{
-    margin-top:30px; font-family:'Fraunces', serif; font-size:20px; color:var(--ink-soft);
-    min-height:34px;
+    margin-top:26px; font-family:'JetBrains Mono', monospace; font-size:clamp(14px,2vw,16px);
+    color:var(--text-dim); min-height:30px; position:relative;
   }
   .hero-detect .chip{
-    display:inline-block; padding:2px 11px; border-radius:20px;
-    background: var(--rubric); color:var(--parchment);
-    font-family:'Source Serif 4', serif; font-size:17px; font-weight:600;
+    display:inline-block; padding:3px 11px; border-radius:20px;
+    background: var(--chip-bg); color:var(--chip-text); border:1px solid rgba(241,180,174,0.3);
+    font-family:'Inter', sans-serif; font-size:14px; font-weight:600;
     opacity:0; transform: translateY(3px) scale(0.94);
     transition: opacity .5s ease, transform .5s cubic-bezier(.2,.9,.3,1.2);
   }
@@ -128,193 +136,159 @@
   .hero-detect .plain{ transition: opacity .35s ease; }
   .hero-detect .plain.gone{ opacity:0; position:absolute; }
 
-  .cta-row{ margin-top:36px; display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
+  .cta-row{ margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
   .btn-primary{
-    background:var(--rubric); color:var(--parchment); text-decoration:none;
-    padding:14px 26px; border-radius:3px; font-family:'Inter',sans-serif; font-weight:500; font-size:15px;
+    background:var(--red); color:#fff; text-decoration:none;
+    padding:13px 24px; border-radius:7px; font-family:'Inter',sans-serif; font-weight:600; font-size:14.5px;
     display:inline-block; transition: background .15s ease, transform .15s ease;
   }
-  .btn-primary:hover{ background:var(--rubric-deep); transform: translateY(-1px); }
+  .btn-primary:hover{ background:var(--red-deep); transform: translateY(-1px); }
   .btn-ghost{
-    color:var(--ink); text-decoration:none; font-family:'Inter',sans-serif; font-weight:500; font-size:15px;
-    border-bottom:1px solid var(--gold); padding-bottom:2px;
+    color:var(--text); text-decoration:none; font-family:'Inter',sans-serif; font-weight:500; font-size:14.5px;
+    border-bottom:1px solid var(--text-dim-2); padding-bottom:2px;
   }
-  .btn-ghost:hover{ color:var(--rubric); border-color:var(--rubric); }
+  .btn-ghost:hover{ color:var(--red); border-color:var(--red); }
 
-  .hero-shot{
-    position:relative;
-    display:flex; justify-content:center;
+  .stat-row{
+    margin-top:40px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+    border-top:1px solid var(--line); padding-top:22px; max-width:480px;
   }
+  .stat-row .stat .num{ font-family:'JetBrains Mono',monospace; font-size:clamp(18px,3.5vw,24px); color:var(--text); font-weight:600; }
+  .stat-row .stat .lbl{ font-size:11.5px; color:var(--text-dim-2); text-transform:uppercase; letter-spacing:0.03em; margin-top:3px; }
+
+  .hero-shot{ display:flex; justify-content:center; }
   .phone{
-    width:min(320px, 84vw);
-    border-radius:26px;
-    background:var(--ink);
-    padding:10px;
-    box-shadow: var(--paper-shadow);
-    transform: rotate(2deg);
+    width:min(300px, 78vw);
+    border-radius:24px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:9px;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(233,56,43,0.06);
   }
-  .phone img{ width:100%; display:block; border-radius:18px; }
-  .hero-tag{
-    position:absolute; bottom:-14px; left:-10px;
-    background:var(--parchment); border:1px solid var(--line);
-    padding:10px 16px; border-radius:3px; box-shadow:0 10px 24px -14px rgba(36,26,18,0.5);
-    font-family:'Inter',sans-serif; font-size:13px; color:var(--ink-soft);
-    max-width:210px;
-  }
-  @media (max-width: 900px){
-    .hero .wrap{ grid-template-columns:1fr; }
-    .hero-shot{ order:-1; margin-bottom:20px; }
-    .phone{ transform:none; }
-  }
-
-  /* ---------- Divider ornament ---------- */
-  .divider{
-    display:flex; align-items:center; gap:16px;
-    max-width:var(--max); margin:0 auto; padding:0 32px;
-  }
-  .divider .line{ flex:1; height:1px; background:var(--line); }
-  .divider .dot{ width:7px; height:7px; border-radius:50%; background:var(--rubric); flex-shrink:0; }
+  .phone img{ border-radius:17px; }
 
   /* ---------- Feature sections ---------- */
-  section.feature{ padding:96px 0; }
-  section.feature .wrap{
-    display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center;
-  }
-  section.feature.reverse .wrap{ direction:rtl; }
-  section.feature.reverse .wrap > *{ direction:ltr; }
-  @media (max-width:900px){
-    section.feature{ padding:64px 0; }
-    section.feature .wrap{ grid-template-columns:1fr; direction:ltr !important; }
+  section.feature{ padding:52px 0; }
+  @media (min-width:900px){ section.feature{ padding:88px 0; } }
+  section.feature .wrap{ display:grid; grid-template-columns:1fr; gap:30px; }
+  @media (min-width:900px){ section.feature .wrap{ grid-template-columns:1fr 1fr; gap:60px; align-items:center; } }
+  .feature .wrap > .copy{ order:1; }
+  .feature .wrap > .media{ order:2; }
+  @media (min-width:900px){
+    section.feature.reverse .wrap > .copy{ order:2; }
+    section.feature.reverse .wrap > .media{ order:1; }
   }
 
-  .eyebrow-label{
-    font-family:'Fraunces', serif; font-style:italic; color:var(--rubric); font-size:16px; margin-bottom:14px; display:block;
-  }
-  .feature h2{ font-size:clamp(28px, 3.4vw, 38px); line-height:1.12; margin-bottom:18px; }
-  .feature p{ color:var(--ink-soft); font-size:17px; max-width:46ch; }
-  .feature ul{ margin:22px 0 0; padding:0; list-style:none; }
+  .feature .head{ margin-top:16px; }
+  .feature h2{ font-size:clamp(24px, 4.4vw, 36px); line-height:1.14; margin-bottom:14px; }
+  .feature p{ color:var(--text-dim); font-size:clamp(15px,1.8vw,17px); max-width:48ch; }
+  .feature ul{ margin:18px 0 0; padding:0; list-style:none; }
   .feature ul li{
-    padding:10px 0 10px 24px; position:relative; color:var(--ink-soft); font-size:16.5px;
-    border-top:1px solid var(--line);
+    padding:12px 0 12px 22px; position:relative; color:var(--text-dim); font-size:15.5px;
+    border-top:1px solid var(--line-soft);
   }
-  .feature ul li:first-child{ border-top:none; }
+  .feature ul li:first-child{ border-top:none; padding-top:0; }
   .feature ul li::before{
-    content:"—"; position:absolute; left:0; color:var(--rubric); font-family:'Fraunces',serif;
+    content:"→"; position:absolute; left:0; top:12px; color:var(--red); font-family:'JetBrains Mono',monospace; font-size:14px;
   }
-  .feature ul li b{ color:var(--ink); font-weight:600; }
+  .feature ul li b{ color:var(--text); font-weight:600; }
 
-  .shot-pair{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; }
+  .shot-pair{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .shot-card{
-    border-radius:14px; overflow:hidden; box-shadow: var(--paper-shadow);
-    border:1px solid rgba(36,26,18,0.08);
-    max-width:230px;
+    border-radius:12px; overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow: 0 20px 44px -26px rgba(0,0,0,0.7);
   }
-  .shot-card img{ width:100%; display:block; }
   .shot-single{ display:flex; justify-content:center; }
-  .shot-single .shot-card{ max-width:280px; }
+  .shot-single .shot-card{ max-width:280px; width:100%; }
 
-  .lex-caption{
-    text-align:center; font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--gold);
-    margin-top:10px; letter-spacing:0.02em;
-  }
+  /* ---------- Alt surface band ---------- */
+  section.band{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 
-  /* ---------- Dark manuscript band (privacy + strongs alt bg) ---------- */
-  .band-dark{
-    background: var(--navy); color:#EDE6D2;
-  }
-  .band-dark h2, .band-dark h3{ color:#FAF6EA; }
-  .band-dark p{ color:#DCE1F0; }
-  .band-dark .eyebrow-label{ color:#F0958B; }
-  .band-dark .feature ul li{ border-top-color: rgba(237,230,210,0.22); }
-  .band-dark .feature ul li{ color:#E3E7F5; }
-  .band-dark .feature ul li b{ color:#FAF6EA; }
-  .band-dark .feature ul li::before{ color:#F0958B; }
-  .band-dark .divider .line{ background: rgba(237,230,210,0.18); }
-
-  /* ---------- Themes swatches ---------- */
-  section.themes{ padding:96px 0; text-align:center; }
-  section.themes h2{ font-size:clamp(28px,3.4vw,38px); }
-  section.themes p.lede{ color:var(--ink-soft); max-width:52ch; margin:16px auto 0; }
-  .swatch-grid{
-    margin-top:52px; display:grid; grid-template-columns:repeat(4,1fr); gap:22px;
-  }
-  @media (max-width:820px){ .swatch-grid{ grid-template-columns:repeat(2,1fr); } }
+  /* ---------- Themes ---------- */
+  section.themes{ padding:52px 0; text-align:center; }
+  @media (min-width:900px){ section.themes{ padding:88px 0; } }
+  section.themes h2{ font-size:clamp(24px,4.4vw,36px); }
+  section.themes p.lede{ color:var(--text-dim); max-width:52ch; margin:14px auto 0; font-size:15.5px; }
+  .swatch-grid{ margin-top:38px; display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  @media (min-width:640px){ .swatch-grid{ grid-template-columns:repeat(4,1fr); gap:18px; } }
   .swatch{
-    border-radius:12px; padding:26px 20px 22px; text-align:left;
-    box-shadow: 0 14px 30px -18px rgba(36,26,18,0.4);
-    border:1px solid rgba(0,0,0,0.06);
+    border-radius:12px; padding:20px 16px 18px; text-align:left;
+    border:1px solid rgba(255,255,255,0.08);
   }
-  .swatch .name{ font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin-bottom:6px; }
-  .swatch .sample{ font-size:13px; opacity:0.85; }
+  .swatch .name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; margin-bottom:5px; }
+  .swatch .sample{ font-size:12px; opacity:0.8; line-height:1.4; }
   .swatch .chip-demo{
-    display:inline-block; margin-top:14px; font-size:12px; padding:3px 9px; border-radius:14px;
-    font-family:'Source Serif 4',serif; font-weight:600;
+    display:inline-block; margin-top:12px; font-size:11.5px; padding:3px 9px; border-radius:14px;
+    font-family:'Inter',sans-serif; font-weight:600;
   }
   .swatch.light{ background:#F5F5F3; color:#1A1A1A; }
   .swatch.light .chip-demo{ background:#FFE3E0; color:#AE241C; }
-  .swatch.dark{ background:#0A0A0A; color:#EDEDED; }
+  .swatch.dark{ background:#0F0F0F; color:#EDEDED; border-color:rgba(255,255,255,0.1); }
   .swatch.dark .chip-demo{ background:#3D0B0C; color:#F1B4AE; }
   .swatch.sepia{ background:#E7D2AC; color:#3B2A17; }
   .swatch.sepia .chip-demo{ background:#8C4B24; color:#F3E4C9; }
   .swatch.navyth{ background:#0B132A; color:#DCE1EF; }
   .swatch.navyth .chip-demo{ background:#3E0D13; color:#F1B4AE; }
 
-  /* ---------- Install / CTA band ---------- */
-  section.install{
-    padding:100px 0;
-    background: var(--parchment-deep);
+  /* ---------- Process ---------- */
+  section.process{ padding:52px 0; }
+  @media (min-width:900px){ section.process{ padding:88px 0; } }
+  .process-grid{
+    margin-top:38px; display:grid; grid-template-columns:1fr; gap:0;
     border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
   }
-  .install .wrap{ text-align:center; }
-  .install h2{ font-size:clamp(30px,3.6vw,42px); max-width:20ch; margin:0 auto; }
-  .install p{ color:var(--ink-soft); max-width:54ch; margin:18px auto 0; font-size:17px; }
+  @media (min-width:700px){ .process-grid{ grid-template-columns:repeat(4,1fr); gap:0; } }
+  .p-step{
+    padding:22px 18px 22px 0; border-bottom:1px solid var(--line);
+  }
+  @media (min-width:700px){
+    .p-step{ border-right:1px solid var(--line); border-bottom:none; padding:24px 20px; }
+    .p-step:last-child{ border-right:none; }
+  }
+  .p-step .idx{ font-family:'JetBrains Mono',monospace; color:var(--red); font-size:13px; }
+  .p-step h3{ font-size:17px; margin:10px 0 8px; }
+  .p-step p{ color:var(--text-dim); font-size:14.5px; margin:0; }
 
-  .store-row{
-    margin:44px auto 0; display:flex; gap:18px; justify-content:center; flex-wrap:wrap;
-  }
+  /* ---------- Install / GET ---------- */
+  section.install{ padding:60px 0; text-align:center; }
+  @media (min-width:900px){ section.install{ padding:100px 0; } }
+  .install h2{ font-size:clamp(26px,5vw,42px); max-width:20ch; margin:0 auto; }
+  .install p{ color:var(--text-dim); max-width:54ch; margin:16px auto 0; font-size:15.5px; }
+  .store-row{ margin:36px auto 0; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
   .btn-store{
-    display:flex; align-items:center; gap:12px;
-    padding:13px 22px; border-radius:8px;
+    display:flex; align-items:center; gap:11px;
+    padding:12px 20px; border-radius:9px;
     font-family:'Inter',sans-serif; text-decoration:none;
-    background:var(--ink); color:var(--parchment);
+    background:var(--text); color:var(--bg);
     transition: background .15s ease, transform .15s ease;
   }
-  a.btn-store:hover{ background:var(--rubric); transform: translateY(-1px); }
-  .btn-store span{ display:flex; flex-direction:column; line-height:1.25; text-align:left; font-size:16px; font-weight:600; }
-  .btn-store small{ font-size:11.5px; font-weight:400; opacity:0.8; text-transform:none; }
-  .btn-store.soon{
-    background:transparent; color:var(--ink-soft);
-    border:1px solid var(--line); cursor:default;
-  }
-  .soon-note{
-    margin-top:24px !important; font-family:'Inter',sans-serif; font-size:14px !important;
-  }
-  .soon-note a{ color:var(--rubric); text-decoration:underline; text-underline-offset:3px; }
+  a.btn-store:hover{ background:var(--red); color:#fff; transform: translateY(-1px); }
+  .btn-store span{ display:flex; flex-direction:column; line-height:1.25; text-align:left; font-size:15px; font-weight:600; }
+  .btn-store small{ font-size:11px; font-weight:400; opacity:0.75; text-transform:none; }
+  .btn-store.soon{ background:transparent; color:var(--text-dim); border:1px solid var(--line); cursor:default; }
+  .soon-note{ margin-top:22px !important; font-family:'Inter',sans-serif; font-size:13.5px !important; }
+  .soon-note a{ color:var(--red); text-decoration:underline; text-underline-offset:3px; }
 
   /* ---------- Footer ---------- */
-  footer{
-    padding:54px 0 40px; font-family:'Inter',sans-serif; font-size:14px; color:var(--ink-soft);
-  }
-  footer .wrap{
-    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
-    border-top:1px solid var(--line); padding-top:28px;
-  }
-  footer a{ color:var(--ink-soft); text-decoration:none; }
-  footer a:hover{ color:var(--rubric); }
-  .foot-links{ display:flex; gap:22px; }
-
+  footer{ padding:36px 0 32px; font-family:'Inter',sans-serif; font-size:13.5px; color:var(--text-dim); border-top:1px solid var(--line); }
+  footer .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+  footer .brand{ font-size:13px; }
+  footer .foot-links{ display:flex; gap:20px; }
+  footer a.link{ color:var(--text-dim); text-decoration:none; }
+  footer a.link:hover{ color:var(--red); }
 </style>
 </head>
 <body>
 
 <header class="site">
   <div class="nav">
-    <a href="#top" class="brand"><img class="mark" src="assets/logo.png" alt="Asor Notes logo">Asor Notes</a>
+    <a href="#top" class="brand"><img class="mark" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
     <nav class="links">
-      <a href="#scripture">Scripture</a>
+      <a href="#scripture">Reference</a>
       <a href="#lexicon">Concordance</a>
-      <a href="#journal">Journaling</a>
+      <a href="#journal">Journal</a>
+      <a href="#themes">Themes</a>
       <a href="#privacy">Privacy</a>
     </nav>
     <a class="nav-cta" href="#install">Get the app</a>
@@ -326,48 +300,54 @@
   <section class="hero">
     <div class="wrap">
       <div>
-        <span class="kicker">A Bible journal built for deep study</span>
-        <h1>Write your reflections.<br>Drop the reference in place.</h1>
-        <p class="lede">Asor Notes pairs a distraction-free journal with a built-in scripture and Strong's lookup — so every note you write can carry its own references, offline and entirely private.</p>
+        <span class="status-line"><span class="dot"></span>offline &amp; private — no account needed</span>
+        <h1>Write it down.<br><span class="accent">Look it up.</span></h1>
+        <p class="lede">Asor Notes pairs a distraction-free journal with a built-in scripture and Strong's concordance lookup — so every note you write can carry its own references, entirely offline.</p>
 
         <div class="hero-detect" id="detectDemo" aria-hidden="true"></div>
 
         <div class="cta-row">
-          <a class="btn-primary" href="#install">Get the app</a>
+          <a class="btn-primary" href="#install">Get the app →</a>
           <a class="btn-ghost" href="#scripture">See how it works</a>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat"><div class="num">14,298</div><div class="lbl">Lexicon entries</div></div>
+          <div class="stat"><div class="num">4</div><div class="lbl">Translations</div></div>
+          <div class="stat"><div class="num">0</div><div class="lbl">Accounts required</div></div>
         </div>
       </div>
       <div class="hero-shot">
         <div class="phone">
           <img src="assets/home-notes-list.jpg" alt="Asor Notes journal list showing pinned entries on Hebrews, He is Ever Loving, and Genesis, each tagged with reference counts">
         </div>
-        <div class="hero-tag">23 entries, one afternoon of study — all searchable, all offline.</div>
       </div>
     </div>
   </section>
 
-  <div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+  <div class="timecode"><span class="tc-num">01</span><span class="tc-line"></span><span class="tc-label">REF — insert scripture references</span></div>
 
   <section class="feature" id="scripture">
     <div class="wrap">
-      <div>
-        <span class="eyebrow-label">Insert scripture references</span>
-        <h2>Type the reference in whatever shorthand you already use.</h2>
-        <p>Tap "+ Reference" and type it however you'd naturally write it — "Matt 3.5", "Matt 3 v6", "Matthew 3:5". The insert tool reads the shorthand, confirms the match, and drops in a properly formatted chip right where your cursor is.</p>
-        <ul>
-          <li><b>Forgiving syntax</b> — dots, colons, and "v" are all read the same way.</li>
-          <li><b>Instant validation</b> — a green confirmation shows the resolved reference before you insert it.</li>
-          <li><b>One-tap peek</b> — open a distraction-free passage card without losing your place.</li>
-          <li><b>Four translations on device</b> — KJV, NKJV, ESV, and WEB, switchable mid-read.</li>
-          <li><b>Insert whole passages</b> — copy a single verse or a full range straight into your note.</li>
-        </ul>
+      <div class="copy">
+        <div class="head">
+          <h2>Type the reference in whatever shorthand you already use.</h2>
+          <p>Tap "+ Reference" and type it however you'd naturally write it — "Matt 3.5", "Matt 3 v6", "Matthew 3:5". The insert tool reads the shorthand, confirms the match, and drops in a properly formatted chip right where your cursor is.</p>
+          <ul>
+            <li><b>Forgiving syntax</b> — dots, colons, and "v" are all read the same way.</li>
+            <li><b>Instant validation</b> — a confirmation shows the resolved reference before you insert it.</li>
+            <li><b>One-tap peek</b> — open a distraction-free passage card without losing your place.</li>
+            <li><b>Four translations on device</b> — KJV, NKJV, ESV, and WEB, switchable mid-read.</li>
+            <li><b>Insert whole passages</b> — copy a single verse or a full range straight into your note.</li>
+          </ul>
+        </div>
       </div>
-      <div>
+      <div class="media">
         <div class="shot-pair">
           <div class="shot-card"><img src="assets/scripture-ref-light.jpg" alt="Insert scripture reference dialog validating Matt 3 v6 in light mode"></div>
           <div class="shot-card"><img src="assets/scripture-ref-dark.jpg" alt="Insert scripture reference dialog validating Matt 3.5 in dark mode"></div>
         </div>
-        <div class="shot-single" style="margin-top:18px;">
+        <div class="shot-single" style="margin-top:14px;">
           <div class="shot-card">
             <img src="assets/note-editor-light.jpg" alt="Note editor showing a Hebrews study with red scripture reference chips like Matt 2 v 5 and Heb 1 v 3 inline in the text">
           </div>
@@ -376,78 +356,68 @@
     </div>
   </section>
 
-  <div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+  <div class="timecode"><span class="tc-num">02</span><span class="tc-line"></span><span class="tc-label">LEX — Strong's concordance</span></div>
 
-  <section class="feature band-dark" id="lexicon">
+  <section class="feature band" id="lexicon">
     <div class="wrap">
-      <div>
-        <span class="eyebrow-label">Strong's concordance, fully offline</span>
-        <h2>Every root word, in the original Hebrew and Greek.</h2>
-        <p>8,674 Hebrew entries and 5,624 Greek entries live on your device — no connection required, in the middle of a sermon or on a plane.</p>
-        <ul>
-          <li><b>Same insert tool</b> — type a Strong's number like H799 or G26 and it resolves to a chip the same way a scripture reference does.</li>
-          <li><b>Original script &amp; transliteration</b> — the lemma, phonetic pronunciation, and etymology, together.</li>
-          <li><b>Exhaustive definition &amp; KJV usage</b> — occurrence counts included, so you can see the word's full footprint.</li>
-          <li><b>Insert straight to note</b> — send any entry into your current entry without retyping it.</li>
-        </ul>
+      <div class="copy">
+        <div class="head">
+          <h2>Every root word, in the original Hebrew and Greek.</h2>
+          <p>8,674 Hebrew entries and 5,624 Greek entries live on your device — no connection required, in the middle of a sermon or on a plane.</p>
+          <ul>
+            <li><b>Same insert tool</b> — type a Strong's number like H799 or G26 and it resolves to a chip the same way a scripture reference does.</li>
+            <li><b>Original script &amp; transliteration</b> — the lemma, phonetic pronunciation, and etymology, together.</li>
+            <li><b>Exhaustive definition &amp; KJV usage</b> — occurrence counts included, so you can see the word's full footprint.</li>
+            <li><b>Insert straight to note</b> — send any entry into your current entry without retyping it.</li>
+          </ul>
+        </div>
       </div>
-      <div class="shot-pair">
-        <div class="shot-card"><img src="assets/lexicon-h564-dark.jpg" alt="Strong's H564 lexicon card for the Hebrew word Immer, with transliteration, definition, origin and KJV usage"></div>
-        <div class="shot-card"><img src="assets/lexicon-g578-dark.jpg" alt="Strong's G578 lexicon card for the Greek word apoblepo, meaning to look away from everything else"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature reverse band-dark">
-    <div class="wrap">
-      <div>
+      <div class="media">
         <div class="shot-pair">
-          <div class="shot-card"><img src="assets/scripture-strongs-light.jpg" alt="Strong's quick lookup validating G652, apostolos, in light mode"></div>
-          <div class="shot-card"><img src="assets/scripture-strongs-dark.jpg" alt="Strong's quick lookup validating H2345, sunburnt or swarthy, in dark mode"></div>
+          <div class="shot-card"><img src="assets/lexicon-h564-dark.jpg" alt="Strong's H564 lexicon card for the Hebrew word Immer, with transliteration, definition, origin and KJV usage"></div>
+          <div class="shot-card"><img src="assets/lexicon-g578-dark.jpg" alt="Strong's G578 lexicon card for the Greek word apoblepo, meaning to look away from everything else"></div>
         </div>
-      </div>
-      <div>
-        <span class="eyebrow-label">Same dialog, deeper study</span>
-        <h2>The reference box doubles as a concordance search.</h2>
-        <p>Drop in a Strong's number and the same insert dialog resolves it against the full lexicon — root word, gloss, and all — before it ever touches your note.</p>
-        <ul>
-          <li><b>No separate screen</b> — scripture and concordance lookups share one fast, familiar flow.</li>
-          <li><b>Verified on the spot</b> — a wrong number is caught before insertion, not after.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
-
-  <section class="feature" id="journal">
-    <div class="wrap">
-      <div>
-        <span class="eyebrow-label">Beyond text</span>
-        <h2>Notes that hold your whole process — not just your typing.</h2>
-        <p>Voice memos for sermons and spoken prayers. Freehand sketches for mind maps and Hebrew character studies. Photos of handwritten outlines and church bulletins. All of it embeds inline, alongside your text and scripture chips, in one block-based note.</p>
-        <ul>
-          <li><b>Built-in audio recorder</b> — with a scrubbable waveform and speed control up to 2×.</li>
-          <li><b>Freehand canvas</b> — adjustable brush sizes, color palette, undo and redo.</li>
-          <li><b>Photo attachments</b> — sermon outlines and study materials, embedded where you need them.</li>
-          <li><b>Full formatting</b> — bold, italic, underline, alignment, and multi-level headings.</li>
-        </ul>
-      </div>
-      <div class="shot-single">
-        <div class="shot-card">
-          <img src="assets/home-notes-list.jpg" alt="Journal entries list showing pinned Hebrews study with 17 references and Genesis study with 49 references">
+        <div class="shot-single" style="margin-top:14px;">
+          <div class="shot-card">
+            <img src="assets/scripture-strongs-dark.jpg" alt="Strong's quick lookup validating H2345, sunburnt or swarthy, in dark mode">
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+  <div class="timecode"><span class="tc-num">03</span><span class="tc-line"></span><span class="tc-label">JRN — multimedia journaling</span></div>
 
-  <section class="themes">
+  <section class="feature reverse" id="journal">
     <div class="wrap">
-      <span class="eyebrow-label">Aesthetics &amp; personalization</span>
+      <div class="copy">
+        <div class="head">
+          <h2>Notes that hold your whole process — not just your typing.</h2>
+          <p>Voice memos for sermons and spoken prayers. Freehand sketches for mind maps and Hebrew character studies. Photos of handwritten outlines and church bulletins. All of it embeds inline, alongside your text and reference chips, in one block-based note.</p>
+          <ul>
+            <li><b>Built-in audio recorder</b> — with a scrubbable waveform and speed control up to 2×.</li>
+            <li><b>Freehand canvas</b> — adjustable brush sizes, color palette, undo and redo.</li>
+            <li><b>Photo attachments</b> — sermon outlines and study materials, embedded where you need them.</li>
+            <li><b>Full formatting</b> — bold, italic, underline, alignment, and multi-level headings.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="media">
+        <div class="shot-single">
+          <div class="shot-card">
+            <img src="assets/home-notes-list.jpg" alt="Journal entries list showing pinned Hebrews study with 17 references and Genesis study with 49 references">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="timecode"><span class="tc-num">04</span><span class="tc-line"></span><span class="tc-label">THM — themes</span></div>
+
+  <section class="themes" id="themes">
+    <div class="wrap">
       <h2>Four palettes, one reading rhythm.</h2>
-      <p class="lede">Light, Dark, Sepia, and Deep Navy — each tuned for a different hour of study, with the same red rubric marking every reference.</p>
+      <p class="lede">Light, Dark, Sepia, and Deep Navy — each tuned for a different hour of study, with the same red marking every reference.</p>
       <div class="swatch-grid">
         <div class="swatch light">
           <div class="name">Light</div>
@@ -473,26 +443,61 @@
     </div>
   </section>
 
-  <div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+  <div class="timecode"><span class="tc-num">05</span><span class="tc-line"></span><span class="tc-label">PRV — privacy &amp; offline</span></div>
 
-  <section class="feature reverse" id="privacy">
+  <section class="feature band" id="privacy">
     <div class="wrap">
-      <div>
-        <span class="eyebrow-label">Privacy &amp; reliability</span>
-        <h2>No account. No sync server. No one reading over your shoulder.</h2>
-        <p>Everything — your notes, your Bible, your concordance, your recordings — lives on your device from the first launch. There's nothing to sign up for and nothing being tracked.</p>
-        <ul>
-          <li><b>No login required</b> — open the app and start writing immediately.</li>
-          <li><b>Complete Bible bundled</b> — all 66 books, plus the full Hebrew &amp; Greek dictionaries, work with no signal at all.</li>
-          <li><b>One-click backup</b> — export every note, photo, recording, and sketch into a single portable .zip file.</li>
-          <li><b>30-day recovery</b> — deleted notes wait in a Recently Deleted screen before they're gone for good.</li>
-        </ul>
+      <div class="copy">
+        <div class="head">
+          <h2>No account. No sync server. No one reading over your shoulder.</h2>
+          <p>Everything — your notes, your Bible, your concordance, your recordings — lives on your device from the first launch. There's nothing to sign up for and nothing being tracked.</p>
+          <ul>
+            <li><b>No login required</b> — open the app and start writing immediately.</li>
+            <li><b>Complete Bible bundled</b> — all 66 books, plus the full Hebrew &amp; Greek dictionaries, work with no signal at all.</li>
+            <li><b>One-click backup</b> — export every note, photo, recording, and sketch into a single portable .zip file.</li>
+            <li><b>30-day recovery</b> — deleted notes wait in a Recently Deleted screen before they're gone for good.</li>
+          </ul>
+        </div>
       </div>
-      <div class="shot-single">
-        <div class="shot-card"><img src="assets/lexicon-g578-dark.jpg" alt="Strong's concordance card, entirely available offline"></div>
+      <div class="media">
+        <div class="shot-single">
+          <div class="shot-card"><img src="assets/lexicon-g578-dark.jpg" alt="Strong's concordance card, entirely available offline"></div>
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="timecode"><span class="tc-num">06</span><span class="tc-line"></span><span class="tc-label">RUN — how study happens</span></div>
+
+  <section class="process">
+    <div class="wrap">
+      <h2 style="font-size:clamp(24px,4.4vw,36px); max-width:16ch;">From a blank note to a finished study.</h2>
+      <div class="process-grid">
+        <div class="p-step">
+          <div class="idx">01</div>
+          <h3>Open &amp; write</h3>
+          <p>No sign-up — start a note the moment you launch the app.</p>
+        </div>
+        <div class="p-step">
+          <div class="idx">02</div>
+          <h3>Insert references</h3>
+          <p>Drop in scripture or Strong's numbers as you go, validated on the spot.</p>
+        </div>
+        <div class="p-step">
+          <div class="idx">03</div>
+          <h3>Add the rest</h3>
+          <p>Layer in voice memos, sketches, and photos alongside your text.</p>
+        </div>
+        <div class="p-step">
+          <div class="idx">04</div>
+          <h3>Find it again</h3>
+          <p>Search, pin, and filter by date or reference whenever you revisit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="timecode"><span class="tc-num">07</span><span class="tc-line"></span><span class="tc-label">GET — the app</span></div>
 
   <section class="install" id="install">
     <div class="wrap">
@@ -502,17 +507,11 @@
         <!-- TODO: replace "#" with the live Play Store listing URL once published -->
         <a class="btn-store" href="#" id="playStoreBtn">
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M3.6 2.4c-.4.4-.6.9-.6 1.5v16.2c0 .6.2 1.1.6 1.5l.1.1L13 12.3v-.2L3.7 2.3l-.1.1z"></path><path fill="currentColor" d="M16.1 15.4l-3.1-3.1v-.2l3.1-3.1 3.7 2.1c1.1.6 1.1 1.6 0 2.2l-3.7 2.1z" opacity=".85"></path><path fill="currentColor" d="M16.1 15.4L13 12.3 3.7 21.6c.4.4 1 .4 1.6.1l10.8-6.3z" opacity=".7"></path><path fill="currentColor" d="M16.1 8.6L5.3 2.3c-.6-.3-1.2-.3-1.6.1L13 12.3l3.1-3.7z" opacity=".55"></path></svg>
-          <span>
-            <small>Coming soon on</small>
-            Google Play
-          </span>
+          <span><small>Coming soon on</small>Google Play</span>
         </a>
         <span class="btn-store soon" aria-disabled="true">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M16.5 1.5c.1 1.1-.3 2.1-1 2.9-.7.8-1.8 1.5-2.9 1.4-.1-1.1.4-2.2 1-2.9.8-.8 2-1.4 2.9-1.4zM20.7 17c-.6 1.3-.9 1.9-1.7 3-1.1 1.6-2.6 3.6-4.5 3.6-1.7 0-2.1-1.1-4.4-1.1-2.3 0-2.7 1.1-4.4 1.1-1.9 0-3.3-1.8-4.4-3.4C-.8 16.2-.4 9.6 3.6 7c1-.7 2-.9 2.9-.9 1.3 0 2.4.9 3.2.9.8 0 2-1.1 3.6-1 .6 0 2.5.3 3.7 2-.1.1-2.2 1.3-2.1 3.9 0 3 2.6 4.1 2.8 4.1z"></path></svg>
-          <span>
-            <small>iOS — coming soon</small>
-            App Store
-          </span>
+          <span><small>iOS — coming soon</small>App Store</span>
         </span>
       </div>
       <p class="soon-note">Want to know when either lands? <a href="mailto:asornotes@gmail.com?subject=Notify%20me%20-%20Asor%20Notes">Get notified by email</a>.</p>
@@ -523,17 +522,15 @@
 
 <footer>
   <div class="wrap">
-    <div class="brand" style="font-size:16px;"><img class="mark" style="width:22px;height:22px;" src="assets/logo.png" alt="Asor Notes logo">Asor Notes</div>
+    <a href="#top" class="brand"><img class="mark" style="width:20px;height:20px;" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
     <div class="foot-links">
-      <a href="mailto:asornotes@gmail.com">asornotes@gmail.com</a>
-      <a href="#top">Back to top</a>
+      <a class="link" href="mailto:asornotes@gmail.com">asornotes@gmail.com</a>
+      <a class="link" href="#top">Back to top</a>
     </div>
   </div>
 </footer>
 
 <script>
-  // Single orchestrated motion moment: the hero line demonstrates
-  // the reference tool resolving typed shorthand into a chip.
   (function(){
     var el = document.getElementById('detectDemo');
     if(!el) return;
@@ -547,7 +544,6 @@
       document.getElementById('chipReveal').classList.add('on');
       return;
     }
-
     setTimeout(function(){
       var plain = el.querySelector('.plain');
       var chip = document.getElementById('chipReveal');
