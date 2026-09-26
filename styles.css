@@ -301,3 +301,42 @@
 .legal ul li::before{ content:"—"; position:absolute; left:0; color:var(--red); }
 .legal ul li b{ color:var(--text); font-weight:600; }
 .legal a.inline{ color:var(--red); text-decoration:underline; text-underline-offset:3px; }
+
+/* ---------- Waitlist page ---------- */
+.waitlist-hero{ padding:56px 0 40px; text-align:center; }
+@media (min-width:900px){ .waitlist-hero{ padding:80px 0 56px; } }
+.waitlist-hero .wrap{ max-width:560px; }
+.waitlist-hero h1{ font-size:clamp(28px, 6vw, 44px); line-height:1.12; }
+.waitlist-hero p.lede{ color:var(--text-dim); font-size:15.5px; margin-top:16px; }
+
+.waitlist-form{
+  display:flex; gap:10px; max-width:440px; margin:30px auto 0; flex-wrap:wrap; justify-content:center;
+}
+.waitlist-form input[type="email"]{
+  flex:1 1 230px; padding:13px 16px; border-radius:8px; border:1px solid var(--line);
+  background:var(--surface); color:var(--text); font-family:'Inter',sans-serif; font-size:15px;
+}
+.waitlist-form input[type="email"]::placeholder{ color:var(--text-dim-2); }
+.waitlist-form input[type="email"]:focus{ outline:2px solid var(--red); outline-offset:2px; border-color:var(--red); }
+.waitlist-form button{
+  background:var(--red); color:#fff; border:none; padding:13px 22px; border-radius:8px;
+  font-family:'Inter',sans-serif; font-weight:600; font-size:14.5px; cursor:pointer;
+  transition: background .15s ease;
+}
+.waitlist-form button:hover{ background:var(--red-deep); }
+.waitlist-form button:disabled{ opacity:0.6; cursor:default; }
+.hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+
+.waitlist-status{
+  margin-top:18px; font-family:'JetBrains Mono', monospace; font-size:13.5px; min-height:18px;
+}
+.waitlist-status.ok{ color:#8FD99B; }
+.waitlist-status.err{ color:#F0958B; }
+
+.waitlist-note{ margin-top:18px; font-size:13px; color:var(--text-dim-2); }
+.waitlist-note a{ color:var(--text-dim); text-decoration:underline; text-underline-offset:3px; }
+
+.waitlist-store-note{
+  margin-top:48px; padding-top:32px; border-top:1px solid var(--line);
+  font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--text-dim-2);
+}

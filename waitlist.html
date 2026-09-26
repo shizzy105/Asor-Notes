@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join the Waitlist — Asor Notes</title>
+<meta name="description" content="Join the Asor Notes waitlist and get notified the moment the app is live on Google Play.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a href="index.html" class="brand"><img class="mark" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
+    <nav class="links">
+      <a href="index.html#scripture">Reference</a>
+      <a href="index.html#reader">Bible Reader</a>
+      <a href="index.html#lexicon">Concordance</a>
+      <a href="index.html#journal">Journal</a>
+      <a href="index.html#themes">Themes</a>
+    </nav>
+    <a class="nav-cta" href="index.html">Back to site</a>
+  </div>
+</header>
+
+<main>
+  <section class="waitlist-hero">
+    <div class="wrap">
+      <span class="status-line" style="justify-content:center;"><span class="dot"></span>launching soon on google play</span>
+      <h1>Be first to know when Asor Notes goes live.</h1>
+      <p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
+
+      <form id="waitlistForm" class="waitlist-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- TODO: create a free form at formspree.io and replace YOUR_FORM_ID above with your real endpoint id -->
+        <label for="email" class="hp-field">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <!-- honeypot field to deter simple spam bots -->
+        <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
+        <button type="submit" id="waitlistBtn">Join the waitlist</button>
+      </form>
+      <div class="waitlist-status" id="waitlistStatus" role="status" aria-live="polite"></div>
+
+      <p class="waitlist-note">We'll only ever email you about the launch. No spam, unsubscribe anytime. See the <a href="privacy.html">Privacy Policy</a>.</p>
+
+      <div class="waitlist-store-note">
+        GET — Google Play (coming soon) · App Store (coming soon)
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img class="mark" style="width:20px;height:20px;" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
+    <div class="foot-links">
+      <a class="link" href="index.html">Home</a>
+      <a class="link" href="privacy.html">Privacy Policy</a>
+      <a class="link" href="mailto:asornotes@gmail.com">asornotes@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Progressive enhancement: submit via fetch so we can show an inline
+  // confirmation instead of navigating away. Falls back to a normal
+  // form POST (and Formspree's own confirmation page) if this fails
+  // or if the endpoint above hasn't been set up yet.
+  (function(){
+    var form = document.getElementById('waitlistForm');
+    var status = document.getElementById('waitlistStatus');
+    var btn = document.getElementById('waitlistBtn');
+    if(!form) return;
+
+    form.addEventListener('submit', function(e){
+      var action = form.getAttribute('action') || '';
+      if(action.indexOf('YOUR_FORM_ID') !== -1){
+        // Endpoint hasn't been configured yet — let the site owner know,
+        // rather than silently failing or submitting to a dead URL.
+        e.preventDefault();
+        status.textContent = 'Signup isn\'t connected yet — email asornotes@gmail.com in the meantime.';
+        status.className = 'waitlist-status err';
+        return;
+      }
+
+      e.preventDefault();
+      var email = document.getElementById('email').value;
+      btn.disabled = true;
+      btn.textContent = 'Joining…';
+      status.textContent = '';
+      status.className = 'waitlist-status';
+
+      fetch(action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      }).then(function(res){
+        if(res.ok){
+          status.textContent = 'You\'re on the list — we\'ll email you at launch.';
+          status.className = 'waitlist-status ok';
+          form.reset();
+        } else {
+          throw new Error('bad response');
+        }
+      }).catch(function(){
+        status.textContent = 'Something went wrong — try again, or email asornotes@gmail.com directly.';
+        status.className = 'waitlist-status err';
+      }).finally(function(){
+        btn.disabled = false;
+        btn.textContent = 'Join the waitlist';
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
