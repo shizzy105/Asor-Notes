@@ -46,7 +46,7 @@
 
         <div class="stat-row">
           <div class="stat"><div class="num">14,298</div><div class="lbl">Lexicon entries</div></div>
-          <div class="stat"><div class="num">4</div><div class="lbl">Translations</div></div>
+          <div class="stat"><div class="num">8</div><div class="lbl">Translations</div></div>
           <div class="stat"><div class="num">0</div><div class="lbl">Accounts required</div></div>
         </div>
       </div>
@@ -67,13 +67,19 @@
           <h2>Type the reference in whatever shorthand you already use.</h2>
           <p>Tap "+ Reference" and type it however you'd naturally write it — "Matt 3.5", "Matt 3 v6", "Matthew 3:5". The insert tool reads the shorthand, confirms the match, and drops in a properly formatted chip right where your cursor is.</p>
           <ul>
+            <li><b>Quick insert shortcut</b> — type a reference right in your note, then <code class="kbd">//</code> or <code class="kbd">..</code> straight after it, and it becomes a chip instantly — no dialog at all.</li>
             <li><b>Forgiving syntax</b> — dots, colons, and "v" are all read the same way.</li>
             <li><b>Instant validation</b> — a confirmation shows the resolved reference before you insert it.</li>
             <li><b>One-tap peek</b> — open a distraction-free passage card without losing your place.</li>
             <li><b>Read in Bible</b> — jump straight from that peek card into the full chapter for context.</li>
-            <li><b>Four translations on device</b> — KJV, NKJV, ESV, and WEB, switchable mid-read.</li>
+            <li><b>Eight translations on device</b> — including KJV, NKJV, ESV, and WEB — switchable mid-read.</li>
             <li><b>Insert whole passages</b> — copy a single verse or a full range straight into your note.</li>
           </ul>
+
+          <div class="shortcut-demo" id="shortcutDemo" aria-hidden="true">
+            <span class="sd-label">Try the shortcut</span>
+            <span class="sd-line" id="shortcutLine"></span>
+          </div>
         </div>
       </div>
       <div class="media">
@@ -138,10 +144,6 @@
       </div>
       <div class="media">
         <div class="shot-pair">
-          <div class="shot-card"><img src="assets/lexicon-h564-dark.jpg" alt="Strong's H564 lexicon card for the Hebrew word Immer, with transliteration, definition, origin and KJV usage"></div>
-          <div class="shot-card"><img src="assets/lexicon-g578-dark.jpg" alt="Strong's G578 lexicon card for the Greek word apoblepo, meaning to look away from everything else"></div>
-        </div>
-        <div class="shot-pair" style="margin-top:14px;">
           <div class="shot-card"><img src="assets/lexicon-view-usage-h799.jpg" alt="Strong's H799 lexicon card with Copy, Insert to Note, and View Usage buttons"></div>
           <div class="shot-card"><img src="assets/concordance-occurrences-context.jpg" alt="Strong's H7225 concordance occurrences shown in context across 49 verses, each tagged with its translated word"></div>
         </div>
@@ -180,21 +182,21 @@
   <section class="themes" id="themes">
     <div class="wrap">
       <h2>Four palettes, one reading rhythm.</h2>
-      <p class="lede">Light, Dark, Sepia, and Deep Navy — each tuned for a different hour of study, with the same red marking every reference.</p>
+      <p class="lede">Light, Black, Dark, and Deep Navy — each tuned for a different hour of study, with the same red marking every reference.</p>
       <div class="swatch-grid">
         <div class="swatch light">
           <div class="name">Light</div>
           <div class="sample">Clean, crisp, high-contrast study environment.</div>
           <span class="chip-demo">John 3:16</span>
         </div>
-        <div class="swatch dark">
-          <div class="name">Dark</div>
-          <div class="sample">OLED-friendly, low-glare for evening reading.</div>
+        <div class="swatch black">
+          <div class="name">Black</div>
+          <div class="sample">True black, OLED-friendly, zero glare at night.</div>
           <span class="chip-demo">John 3:16</span>
         </div>
-        <div class="swatch sepia">
-          <div class="name">Sepia</div>
-          <div class="sample">Warm parchment palette for extended devotional reading.</div>
+        <div class="swatch dark">
+          <div class="name">Dark</div>
+          <div class="sample">Soft charcoal — easier contrast than true black.</div>
           <span class="chip-demo">John 3:16</span>
         </div>
         <div class="swatch navyth">
@@ -208,7 +210,7 @@
 
   <div class="timecode"><span class="tc-num">06</span><span class="tc-line"></span><span class="tc-label">PRV — privacy &amp; offline</span></div>
 
-  <section class="feature band" id="privacy">
+  <section class="feature band solo" id="privacy">
     <div class="wrap">
       <div class="copy">
         <div class="head">
@@ -220,11 +222,6 @@
             <li><b>One-click backup</b> — export every note, photo, recording, and sketch into a single portable .zip file.</li>
             <li><b>30-day recovery</b> — deleted notes wait in a Recently Deleted screen before they're gone for good.</li>
           </ul>
-        </div>
-      </div>
-      <div class="media">
-        <div class="shot-single">
-          <div class="shot-card"><img src="assets/lexicon-g578-dark.jpg" alt="Strong's concordance card, entirely available offline"></div>
         </div>
       </div>
     </div>
@@ -306,7 +303,7 @@
     if(!el) return;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    el.innerHTML = '<span class="plain">Reference tool: type "John 3.16"...</span>' +
+    el.innerHTML = '<span class="plain">In your note, type "John 3.16//"...</span>' +
                     '<span class="chip" id="chipReveal">John 3:16 ✓</span>';
 
     if(reduce){
@@ -320,6 +317,43 @@
       plain.classList.add('gone');
       chip.classList.add('on');
     }, 1400);
+  })();
+
+  // Loops through the "//" and ".." quick-insert shortcut, so people can
+  // see the whole typed-reference-to-chip motion without trying it themselves.
+  (function(){
+    var line = document.getElementById('shortcutLine');
+    if(!line) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var examples = [
+      { typed: 'Matt 5.3', trigger: '//', result: 'Matt 5:3 ✓' },
+      { typed: 'Rom 8.28', trigger: '..', result: 'Rom 8:28 ✓' }
+    ];
+
+    if(reduce){
+      line.innerHTML = '<span class="sd-chip on">' + examples[0].result + '</span>';
+      return;
+    }
+
+    var i = 0;
+    function run(){
+      var ex = examples[i % examples.length];
+      line.innerHTML = '<span class="sd-plain" id="sdPlain">' + ex.typed + '</span>' +
+                        '<span class="sd-chip" id="sdChip">' + ex.result + '</span>';
+      var plain = document.getElementById('sdPlain');
+      var chip = document.getElementById('sdChip');
+
+      setTimeout(function(){ if(plain) plain.textContent = ex.typed + ex.trigger; }, 700);
+      setTimeout(function(){
+        if(plain) plain.classList.add('gone');
+        if(chip) chip.classList.add('on');
+      }, 1500);
+
+      i++;
+      setTimeout(run, 3600);
+    }
+    run();
   })();
 </script>
 

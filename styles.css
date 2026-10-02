@@ -166,6 +166,8 @@
     section.feature.reverse .wrap > .copy{ order:2; }
     section.feature.reverse .wrap > .media{ order:1; }
   }
+  @media (min-width:900px){ section.feature.solo .wrap{ grid-template-columns:1fr; } }
+  section.feature.solo .copy .head{ max-width:640px; }
 
   .feature .head{ margin-top:16px; }
   .feature h2{ font-size:clamp(24px, 4.4vw, 36px); line-height:1.14; margin-bottom:14px; }
@@ -212,10 +214,10 @@
   }
   .swatch.light{ background:#F5F5F3; color:#1A1A1A; }
   .swatch.light .chip-demo{ background:#FFE3E0; color:#AE241C; }
-  .swatch.dark{ background:#0F0F0F; color:#EDEDED; border-color:rgba(255,255,255,0.1); }
+  .swatch.black{ background:#0A0A0A; color:#EDEDED; border-color:rgba(255,255,255,0.1); }
+  .swatch.black .chip-demo{ background:#3D0B0C; color:#F1B4AE; }
+  .swatch.dark{ background:#1E1E20; color:#EDEDED; border-color:rgba(255,255,255,0.1); }
   .swatch.dark .chip-demo{ background:#3D0B0C; color:#F1B4AE; }
-  .swatch.sepia{ background:#E7D2AC; color:#3B2A17; }
-  .swatch.sepia .chip-demo{ background:#8C4B24; color:#F3E4C9; }
   .swatch.navyth{ background:#0B132A; color:#DCE1EF; }
   .swatch.navyth .chip-demo{ background:#3E0D13; color:#F1B4AE; }
 
@@ -340,3 +342,33 @@
   margin-top:48px; padding-top:32px; border-top:1px solid var(--line);
   font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--text-dim-2);
 }
+
+/* ---------- Inline keyboard-shortcut label ---------- */
+code.kbd{
+  font-family:'JetBrains Mono', monospace; background:var(--surface-2); border:1px solid var(--line);
+  padding:1px 6px; border-radius:4px; font-size:0.86em; color:var(--text);
+}
+
+/* ---------- Quick-insert shortcut demo ---------- */
+.shortcut-demo{
+  margin-top:24px; padding-top:20px; border-top:1px solid var(--line-soft);
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+}
+.shortcut-demo .sd-label{
+  font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase;
+  letter-spacing:0.05em; color:var(--text-dim-2); flex-shrink:0;
+}
+.shortcut-demo .sd-line{
+  position:relative; min-height:26px; display:inline-flex; align-items:center;
+  font-family:'JetBrains Mono', monospace; font-size:14.5px; color:var(--text-dim);
+}
+.shortcut-demo .sd-chip{
+  display:inline-block; padding:3px 11px; border-radius:20px;
+  background:var(--chip-bg); color:var(--chip-text); border:1px solid rgba(241,180,174,0.3);
+  font-family:'Inter', sans-serif; font-size:13.5px; font-weight:600;
+  opacity:0; transform: translateY(3px) scale(0.94);
+  transition: opacity .4s ease, transform .4s cubic-bezier(.2,.9,.3,1.2);
+}
+.shortcut-demo .sd-chip.on{ opacity:1; transform:translateY(0) scale(1); }
+.shortcut-demo .sd-plain{ transition: opacity .3s ease; }
+.shortcut-demo .sd-plain.gone{ opacity:0; position:absolute; }
