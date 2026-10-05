@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — Asor Notes</title>
+<meta name="description" content="This page doesn't exist. Head back to the Asor Notes homepage.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a href="index.html" class="brand"><img class="mark" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
+    <nav class="links">
+      <a href="index.html#scripture">Reference</a>
+      <a href="index.html#reader">Bible Reader</a>
+      <a href="index.html#lexicon">Concordance</a>
+      <a href="index.html#journal">Journal</a>
+      <a href="index.html#themes">Themes</a>
+    </nav>
+    <a class="nav-cta" href="index.html">Back to site</a>
+  </div>
+</header>
+
+<main>
+  <section class="notfound-hero">
+    <div class="wrap">
+      <span class="status-line" style="justify-content:center;"><span class="dot"></span>error 404</span>
+      <h1>This reference doesn't resolve.</h1>
+      <p class="lede">The page you're looking for isn't in this canon — it may have moved, or the link might be off by a character.</p>
+
+      <div class="notfound-card">
+        <div class="nf-row">
+          <span class="nf-x">✕</span>
+          <span>No match for <code class="kbd nf-path" id="badPath">this page</code></span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn-primary" href="index.html">Back to home →</a>
+        <a class="btn-ghost" href="waitlist.html">Join the waitlist</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img class="mark" style="width:20px;height:20px;" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
+    <div class="foot-links">
+      <a class="link" href="index.html">Home</a>
+      <a class="link" href="privacy.html">Privacy Policy</a>
+      <a class="link" href="mailto:asornotes@gmail.com">asornotes@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Show the path that actually 404'd, when available.
+  (function(){
+    var el = document.getElementById('badPath');
+    if(el && window.location && window.location.pathname){
+      el.textContent = window.location.pathname;
+    }
+  })();
+</script>
+
+</body>
+</html>
