@@ -35,9 +35,16 @@
 
 <p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
 
-<form id="waitlistForm" class="waitlist-form" action="https://formspree.io/f/mjykappa" method="POST">
-  <label for="email" class="hp-field">Email</label>
 
+<p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
+
+<form id="waitlistForm" class="waitlist-form" action="https://api.web3forms.com/submit" method="POST">
+
+  <!-- Web3Forms access key -->
+  <input type="hidden" name="access_key" value="df03304e-772f-45a6-be2e-d5afc17850fb">
+
+  <!-- Email field -->
+  <label for="email" class="hp-field">Email</label>
   <input
     type="email"
     id="email"
@@ -47,11 +54,12 @@
     autocomplete="email"
   >
 
-  <!-- Honeypot field to deter simple spam bots -->
+  <!-- Honeypot spam protection -->
   <input
-    type="text"
-    name="_gotcha"
-    class="hp-field"
+    type="checkbox"
+    name="botcheck"
+    class="hidden"
+    style="display:none;"
     tabindex="-1"
     autocomplete="off"
   >
@@ -87,19 +95,22 @@
         }
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         form.reset();
+
         status.textContent =
-          "✓ Thank you for joining the Asor Notes waitlist! We'll email you when the app is available.";
+          "✓ You're on the list! We'll email you when Asor Notes is available.";
         status.style.color = "#218838";
       } else {
         status.textContent =
-          "We couldn't submit your email. Please try again.";
+          result.message || "We couldn't submit your email. Please try again.";
         status.style.color = "#c0392b";
       }
     } catch (error) {
       status.textContent =
-        "A connection error occurred. Please check your internet and try again.";
+        "Connection error. Please check your internet and try again.";
       status.style.color = "#c0392b";
     } finally {
       button.disabled = false;
@@ -108,36 +119,7 @@
   });
 })();
 </script>
-      <p class="waitlist-note">We'll only ever email you about the launch. No spam, unsubscribe anytime. See the <a href="privacy.html">Privacy Policy</a>.</p>
 
-      <div class="waitlist-store-note">
-        GET Now on Google Play  · App Store (coming soon)
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <a href="index.html" class="brand"><img class="mark" style="width:20px;height:20px;" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
-    <div class="foot-links">
-      <a class="link" href="index.html">Home</a>
-      <a class="link" href="privacy.html">Privacy Policy</a>
-      <a class="link" href="mailto:help@asornotes.com">help@asornotes.com</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  // The form above submits as a plain HTML POST straight to Formspree —
-  // no fetch/AJAX, no CORS involved, so it works reliably on any host.
-  // Formspree will show its own confirmation page after a successful
-  // submission (add a "_next" field, see the TODO near the form, once
-  // this site has a known live URL, to bring people back here instead).
-  //
-  // This script only handles the case where someone lands back on this
-  // page with ?joined=1 in the URL, so we can show an inline thank-you
-  // instead of the empty form.
   (function(){
     var params = new URLSearchParams(window.location.search);
     if(params.get('joined') === '1'){
