@@ -32,94 +32,51 @@
     <div class="wrap">
       <span class="status-line" style="justify-content:center;"><span class="dot"></span>launching soon on the App Store</span>
       <h1>Be first to know when Asor Notes goes live on IOS.</h1>
+      <p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
 
-<p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
+      <form id="waitlistForm" class="waitlist-form" action="https://formspree.io/f/mjykappa" method="POST">
+        <label for="email" class="hp-field">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <!-- honeypot field to deter simple spam bots -->
+        <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
+        <!-- TODO: once you know your live site's URL, set this to
+             "https://Asornotes.com/waitlist.html?joined=1" so Formspree
+             redirects people back to this page's own thank-you message
+             instead of Formspree's default confirmation page. -->
+        <button type="submit" id="waitlistBtn">Join the waitlist</button>
+      </form>
+      <div class="waitlist-status" id="waitlistStatus" role="status" aria-live="polite"></div>
 
+      <p class="waitlist-note">We'll only ever email you about the launch. No spam, unsubscribe anytime. See the <a href="privacy.html">Privacy Policy</a>.</p>
 
-<p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
+      <div class="waitlist-store-note">
+        GET Now on Google Play  · App Store (coming soon)
+      </div>
+    </div>
+  </section>
+</main>
 
-<form id="waitlistForm" class="waitlist-form" action="https://api.web3forms.com/submit" method="POST">
-
-  <!-- Web3Forms access key -->
-  <input type="hidden" name="access_key" value="df03304e-772f-45a6-be2e-d5afc17850fb">
-
-  <!-- Email field -->
-  <label for="email" class="hp-field">Email</label>
-  <input
-    type="email"
-    id="email"
-    name="email"
-    placeholder="you@example.com"
-    required
-    autocomplete="email"
-  >
-
-  <!-- Honeypot spam protection -->
-  <input
-    type="checkbox"
-    name="botcheck"
-    class="hidden"
-    style="display:none;"
-    tabindex="-1"
-    autocomplete="off"
-  >
-
-  <button type="submit" id="waitlistBtn">Join the waitlist</button>
-</form>
-
-<div class="waitlist-status" id="waitlistStatus" role="status" aria-live="polite"></div>
+<footer>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img class="mark" style="width:20px;height:20px;" src="assets/logo.png" alt="Asor Notes logo">ASOR_NOTES</a>
+    <div class="foot-links">
+      <a class="link" href="index.html">Home</a>
+      <a class="link" href="privacy.html">Privacy Policy</a>
+      <a class="link" href="mailto:help@asornotes.com">help@asornotes.com</a>
+    </div>
+  </div>
+</footer>
 
 <script>
-(function () {
-  const form = document.getElementById("waitlistForm");
-  const button = document.getElementById("waitlistBtn");
-  const status = document.getElementById("waitlistStatus");
-
-  if (!form || !button || !status) return;
-
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
-
-    if (button.disabled) return;
-
-    button.disabled = true;
-    button.textContent = "Joining...";
-    status.textContent = "";
-
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: {
-          "Accept": "application/json"
-        }
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        form.reset();
-
-        status.textContent =
-          "✓ You're on the list! We'll email you when Asor Notes is available.";
-        status.style.color = "#218838";
-      } else {
-        status.textContent =
-          result.message || "We couldn't submit your email. Please try again.";
-        status.style.color = "#c0392b";
-      }
-    } catch (error) {
-      status.textContent =
-        "Connection error. Please check your internet and try again.";
-      status.style.color = "#c0392b";
-    } finally {
-      button.disabled = false;
-      button.textContent = "Join the waitlist";
-    }
-  });
-})();
-</script>
-
+  // The form above submits as a plain HTML POST straight to Formspree —
+  // no fetch/AJAX, no CORS involved, so it works reliably on any host.
+  // Formspree will show its own confirmation page after a successful
+  // submission (add a "_next" field, see the TODO near the form, once
+  // this site has a known live URL, to bring people back here instead).
+  //
+  // This script only handles the case where someone lands back on this
+  // page with ?joined=1 in the URL, so we can show an inline thank-you
+  // instead of the empty form.
   (function(){
     var params = new URLSearchParams(window.location.search);
     if(params.get('joined') === '1'){
