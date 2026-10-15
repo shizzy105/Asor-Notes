@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,17 +35,18 @@
       <h1>Be first to know when Asor Notes goes live on IOS.</h1>
       <p class="lede">Leave your email and we'll send you a single message the moment the app is available — nothing else, nothing before then.</p>
 
-      <form id="waitlistForm" class="waitlist-form" action="https://formspree.io/f/mjykappa" method="POST">
+      <form id="waitlistForm" class="waitlist-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="df03304e-772f-45a6-be2e-d5afc17850fb">
+
         <label for="email" class="hp-field">Email</label>
         <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
-        <!-- honeypot field to deter simple spam bots -->
-        <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
-        <!-- TODO: once you know your live site's URL, set this to
-             "https://Asornotes.com/waitlist.html?joined=1" so Formspree
-             redirects people back to this page's own thank-you message
-             instead of Formspree's default confirmation page. -->
+
+        <!-- Web3Forms honeypot spam protection -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+
         <button type="submit" id="waitlistBtn">Join the waitlist</button>
       </form>
+
       <div class="waitlist-status" id="waitlistStatus" role="status" aria-live="polite"></div>
 
       <p class="waitlist-note">We'll only ever email you about the launch. No spam, unsubscribe anytime. See the <a href="privacy.html">Privacy Policy</a>.</p>
@@ -68,27 +70,51 @@
 </footer>
 
 <script>
-  // The form above submits as a plain HTML POST straight to Formspree —
-  // no fetch/AJAX, no CORS involved, so it works reliably on any host.
-  // Formspree will show its own confirmation page after a successful
-  // submission (add a "_next" field, see the TODO near the form, once
-  // this site has a known live URL, to bring people back here instead).
-  //
-  // This script only handles the case where someone lands back on this
-  // page with ?joined=1 in the URL, so we can show an inline thank-you
-  // instead of the empty form.
-  (function(){
-    var params = new URLSearchParams(window.location.search);
-    if(params.get('joined') === '1'){
-      var form = document.getElementById('waitlistForm');
-      var status = document.getElementById('waitlistStatus');
-      if(form) form.style.display = 'none';
-      if(status){
-        status.textContent = 'You\'re on the list — we\'ll email you at launch.';
+(function () {
+  var form = document.getElementById('waitlistForm');
+  var button = document.getElementById('waitlistBtn');
+  var status = document.getElementById('waitlistStatus');
+
+  if (!form || !button || !status) return;
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    if (button.disabled) return;
+
+    button.disabled = true;
+    button.textContent = 'Joining...';
+    status.textContent = '';
+    status.className = 'waitlist-status';
+
+    try {
+      var response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      var result = await response.json();
+
+      if (response.ok && result.success) {
+        form.reset();
+        status.textContent = "You're on the list — we'll email you at launch.";
         status.className = 'waitlist-status ok';
+      } else {
+        status.textContent = "We couldn't submit your email. Please try again.";
+        status.className = 'waitlist-status error';
       }
+    } catch (error) {
+      status.textContent = 'Connection error. Please check your internet and try again.';
+      status.className = 'waitlist-status error';
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Join the waitlist';
     }
-  })();
+  });
+})();
 </script>
 
 </body>
